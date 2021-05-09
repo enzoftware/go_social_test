@@ -36,5 +36,12 @@ void main() {
       await repository.addNewActivity(ANY_GIVEN_ACTIVITY_REQUEST);
       verify(repository.addNewActivity(ANY_GIVEN_ACTIVITY_REQUEST));
     });
+
+    test('Should check update activity', () async {
+      when(repository.updateActivity(ANY_GIVEN_ACTIVITY))
+          .thenAnswer((_) async => Void);
+      await repository.updateActivity(ANY_GIVEN_ACTIVITY);
+      verify(repository.updateActivity(ANY_GIVEN_ACTIVITY));
+    });
   });
 }

@@ -75,5 +75,27 @@ void main() {
       expect(activityProvider.isLoading, isFalse);
       expect(activityProvider.activities, isNull);
     });
+
+    test('Should check if detail activity success', () async {
+      expect(activityProvider.isLoading, false);
+      when(activityProvider.repository.getActivityDetail(ANY_GIVEN_ID))
+          .thenAnswer((_) async => ANY_GIVEN_ACTIVITY);
+      final result = activityProvider.getDetailActivity(ANY_GIVEN_ID);
+      expect(activityProvider.isLoading, isTrue);
+      await result;
+      expect(activityProvider.isLoading, isFalse);
+      expect(activityProvider.activityDetail, isNotNull);
+    });
+
+    test('Should check if detail activity fails', () async {
+      expect(activityProvider.isLoading, false);
+      when(activityProvider.repository.getActivityDetail(ANY_GIVEN_ID))
+          .thenAnswer((_) async => throw Exception());
+      final result = activityProvider.getDetailActivity(ANY_GIVEN_ID);
+      expect(activityProvider.isLoading, isTrue);
+      await result;
+      expect(activityProvider.isLoading, isFalse);
+      expect(activityProvider.activityDetail, isNull);
+    });
   });
 }
