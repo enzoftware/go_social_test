@@ -10,7 +10,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       await Future.delayed(const Duration(seconds: 2));
       final id = DateTime.now().millisecondsSinceEpoch.toString();
       final activity = request.toActivity(id);
-      mockActivities.add(activity);
+      mockActivities.insert(0, activity);
     } catch (e) {
       throw Exception('Error adding a new activity');
     }
@@ -33,6 +33,17 @@ class ActivityRepositoryImpl implements ActivityRepository {
       return mockActivities;
     } catch (e) {
       throw Exception('Error fetching activities');
+    }
+  }
+
+  @override
+  Future<void> updateActivity(Activity activity) async {
+    try {
+      await Future.delayed(const Duration(seconds: 2));
+      final index = mockActivities.indexWhere((item) => item.id == activity.id);
+      mockActivities[index] = activity;
+    } catch (e) {
+      throw Exception('Activity not found');
     }
   }
 }

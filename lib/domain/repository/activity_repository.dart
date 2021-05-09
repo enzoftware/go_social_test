@@ -11,4 +11,8 @@ abstract class ActivityRepository {
   /// This method will add a new activity for a user
   /// This will use a [ActivityRequest] to transform to an [Activity]
   Future<void> addNewActivity(ActivityRequest request);
+
+  /// This method will update the [Activity] created by a user
+  /// [activity] is the new activity that replace the old
+  Future<void> updateActivity(Activity activity);
 }
