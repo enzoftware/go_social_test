@@ -8,7 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'mock_repository.dart';
 
 void main() {
-  group('ActivityProviderTest', () {
+  group('ActivityRepositoryTest', () {
     ActivityRepository repository;
     setUp(() {
       repository = MockActivityRepository();
