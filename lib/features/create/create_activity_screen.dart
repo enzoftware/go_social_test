@@ -31,6 +31,7 @@ class CreateActivityScreen extends HookWidget {
     final categoriesController = useTextEditingController();
     final dateController = useTextEditingController();
     final _formKey = GlobalKey<FormState>();
+    final provider = Provider.of<ActivityProvider>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create new activity'),
@@ -80,25 +81,61 @@ class CreateActivityScreen extends HookWidget {
                 ),
                 suffix: const Icon(Icons.category),
               ),
+              const SizedBox(height: 40),
+              _SaveActivityButton(
+                onTap: () async {
+                  if (_formKey.currentState.validate()) {
+                    await provider.addNewActivity(
+                      nameController.text,
+                      descriptionController.text,
+                      locationController.text,
+                      dateController.text,
+                      categoriesController.text.split(','),
+                    );
+                    Navigator.pop(context);
+                  }
+                },
+                isLoading: provider.isLoading,
+              )
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (_formKey.currentState.validate()) {
-            await Provider.of<ActivityProvider>(context, listen: false)
-                .addNewActivity(
-              nameController.text,
-              descriptionController.text,
-              locationController.text,
-              dateController.text,
-              categoriesController.text.split(','),
-            );
-            Navigator.pop(context);
-          }
-        },
-        child: const Icon(Icons.save),
+    );
+  }
+}
+
+class _SaveActivityButton extends StatelessWidget {
+  const _SaveActivityButton({
+    Key key,
+    @required this.onTap,
+    @required this.isLoading,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
+  final bool isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: isLoading ? null : onTap,
+      child: Container(
+        width: double.infinity,
+        height: 50,
+        child: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(backgroundColor: Colors.white),
+              )
+            : const Center(
+                child: Text(
+                  'Save',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(16),
+        ),
       ),
     );
   }
