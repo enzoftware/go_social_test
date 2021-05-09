@@ -50,14 +50,14 @@ class ActivityFeedBody extends StatelessWidget {
   const ActivityFeedBody({Key key, this.activities}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (activities != null) {
+    if (activities != null)
       return ListView.builder(
         itemCount: activities.length,
         itemBuilder: (context, index) => ActivityItem(
           activity: activities[index],
         ),
       );
-    } else
+    else
       return const Center(child: Text('Ocurrió un error'));
   }
 }

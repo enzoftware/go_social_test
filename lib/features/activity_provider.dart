@@ -14,6 +14,9 @@ class ActivityProvider extends ChangeNotifier {
   List<Activity> _activities;
   List<Activity> get activities => _activities;
 
+  Activity _activityDetail;
+  Activity get activityDetail => _activityDetail;
+
   Future<void> loadActivities() async {
     try {
       _isLoading = true;
@@ -48,5 +51,16 @@ class ActivityProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getDetailActivity(String id) async {}
+  Future<void> getDetailActivity(String id) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      _activityDetail = await repository.getActivityDetail(id);
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }
