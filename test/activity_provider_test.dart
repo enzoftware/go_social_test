@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_social_test/features/activity_provider.dart';
-import 'package:mockito/mockito.dart';
 
 import 'mock_repository.dart';
 
@@ -8,7 +7,7 @@ void main() {
   group('ActivityProviderTest', () {
     ActivityProvider activityProvider;
     setUp(() {
-      activityProvider = ActivityProvider(MockActivityRepository());
+      activityProvider = ActivityProvider(FakeActivityRepository());
     });
     test('Should check if initially is not loading and has no activities', () {
       expect(activityProvider.isLoading, false);
@@ -18,9 +17,23 @@ void main() {
     test('Should check if load activities success', () async {
       expect(activityProvider.isLoading, false);
       final result = activityProvider.loadActivities();
-      verify(activityProvider.repository.getRecentActivities());
       expect(activityProvider.isLoading, isTrue);
       await result;
+      expect(activityProvider.isLoading, isFalse);
+    });
+
+    test('Should check if add activity success', () async {
+      expect(activityProvider.isLoading, false);
+      final result = activityProvider.addNewActivity(
+        ANY_GIVEN_NAME,
+        ANY_GIVEN_DESCRIPTION,
+        ANY_GIVEN_LOCATION,
+        ANY_GIVEN_DATE,
+        ANY_GIVEN_CATEGORIES,
+      );
+      expect(activityProvider.isLoading, isTrue);
+      await result;
+      await activityProvider.loadActivities();
       expect(activityProvider.isLoading, isFalse);
     });
   });

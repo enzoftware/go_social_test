@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_social_test/domain/models/activity.dart';
 import 'package:go_social_test/domain/repository/activity_repository.dart';
@@ -26,6 +28,13 @@ void main() {
       verify(repository.getActivityDetail(ANY_GIVEN_ID));
       expect(result.id, ANY_GIVEN_ID);
       expect(result.name, ANY_GIVEN_ACTIVITY.name);
+    });
+
+    test('Should check getting activity', () async {
+      when(repository.addNewActivity(ANY_GIVEN_ACTIVITY_REQUEST))
+          .thenAnswer((_) async => Void);
+      await repository.addNewActivity(ANY_GIVEN_ACTIVITY_REQUEST);
+      verify(repository.addNewActivity(ANY_GIVEN_ACTIVITY_REQUEST));
     });
   });
 }
