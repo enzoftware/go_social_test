@@ -73,7 +73,6 @@ void main() {
       expect(activityProvider.isLoading, isTrue);
       await result;
       expect(activityProvider.isLoading, isFalse);
-      expect(activityProvider.activities, isNull);
     });
 
     test('Should check if detail activity success', () async {
@@ -96,6 +95,26 @@ void main() {
       await result;
       expect(activityProvider.isLoading, isFalse);
       expect(activityProvider.activityDetail, isNull);
+    });
+
+    test('Should check if update activity success', () async {
+      expect(activityProvider.isLoading, false);
+      when(activityProvider.repository.updateActivity(ANY_GIVEN_ACTIVITY))
+          .thenAnswer((_) async => Void);
+      final result = activityProvider.updateActivity(ANY_GIVEN_ACTIVITY);
+      expect(activityProvider.isLoading, isTrue);
+      await result;
+      expect(activityProvider.isLoading, isFalse);
+    });
+
+    test('Should check if update activity fails', () async {
+      expect(activityProvider.isLoading, false);
+      when(activityProvider.repository.updateActivity(ANY_GIVEN_ACTIVITY))
+          .thenAnswer((_) async => throw Exception());
+      final result = activityProvider.updateActivity(ANY_GIVEN_ACTIVITY);
+      expect(activityProvider.isLoading, isTrue);
+      await result;
+      expect(activityProvider.isLoading, isFalse);
     });
   });
 }
