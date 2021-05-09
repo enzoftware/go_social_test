@@ -21,7 +21,7 @@ void main() {
       expect(result.length, 1);
     });
 
-    test('Should check getting activity', () async {
+    test('Should check getting activity detail', () async {
       when(repository.getActivityDetail(ANY_GIVEN_ID))
           .thenAnswer((_) async => ANY_GIVEN_ACTIVITY);
       final result = await repository.getActivityDetail(ANY_GIVEN_ID);
@@ -30,7 +30,7 @@ void main() {
       expect(result.name, ANY_GIVEN_ACTIVITY.name);
     });
 
-    test('Should check getting activity', () async {
+    test('Should check add new activity', () async {
       when(repository.addNewActivity(ANY_GIVEN_ACTIVITY_REQUEST))
           .thenAnswer((_) async => Void);
       await repository.addNewActivity(ANY_GIVEN_ACTIVITY_REQUEST);

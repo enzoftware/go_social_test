@@ -1,30 +1,8 @@
-import 'package:go_social_test/domain/models/activity.dart';
 import 'package:go_social_test/data/request/activity_request.dart';
 import 'package:go_social_test/domain/repository/activity_repository.dart';
 import 'package:mockito/mockito.dart';
 
-class FakeActivityRepository implements ActivityRepository {
-  final activities;
-
-  FakeActivityRepository({this.activities = const []});
-
-  @override
-  Future<void> addNewActivity(ActivityRequest request) async {
-    activities.add(request.toActivity(ANY_GIVEN_ID));
-  }
-
-  @override
-  Future<Activity> getActivityDetail(String id) async {
-    return ANY_GIVEN_ACTIVITY;
-  }
-
-  @override
-  Future<List<Activity>> getRecentActivities() async {
-    return activities;
-  }
-}
-
-class MockActivityRepository extends Mock implements FakeActivityRepository {}
+class MockActivityRepository extends Mock implements ActivityRepository {}
 
 final ANY_GIVEN_ACTIVITY_REQUEST = ActivityRequest(
   'Test activity name',
