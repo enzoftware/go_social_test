@@ -25,13 +25,8 @@ class ActivityRequest {
       location: location,
       categories: categories.map((item) => Category(item)).toList(),
       date: date,
-      // This is a mock simulation
       assitants: Random().nextInt(1000),
       isUserActivity: true,
     );
-  }
-
-  String getImageByCategories() {
-    return '';
   }
 }
