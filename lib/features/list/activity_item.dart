@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_social_test/domain/models/activity.dart';
+import 'package:go_social_test/features/detail/activity_detail_screen.dart';
 import 'package:go_social_test/widgets/decorations.dart';
 
 class ActivityItem extends StatelessWidget {
@@ -8,47 +9,50 @@ class ActivityItem extends StatelessWidget {
   const ActivityItem({Key key, this.activity}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 250,
-      decoration: activityItemDecoration(activity.image),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              activity.name,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: () => ActivityDetailScreeen.navigate(context, activity.id),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 250,
+        decoration: activityItemDecoration(activity.getImageByCategories()),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                activity.name,
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                _ActvityInfo(
-                  name: activity.location,
-                  iconData: Icons.map,
-                ),
-                const SizedBox(width: 12),
-                _ActvityInfo(
-                  name: activity.date,
-                  iconData: Icons.date_range_sharp,
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: activity.categories
-                  .map((item) => _CategoryItem(category: item))
-                  .toList(),
-            ),
-            const SizedBox(height: 12),
-            _ActivityAssistants(assitants: activity.assitants),
-          ],
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  ActvityInfo(
+                    name: activity.location,
+                    iconData: Icons.map,
+                  ),
+                  const SizedBox(width: 12),
+                  ActvityInfo(
+                    name: activity.date,
+                    iconData: Icons.date_range_sharp,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: activity.categories
+                    .map((item) => CategoryItem(category: item))
+                    .toList(),
+              ),
+              const SizedBox(height: 12),
+              _ActivityAssistants(assitants: activity.assitants),
+            ],
+          ),
         ),
       ),
     );
@@ -79,11 +83,11 @@ class _ActivityAssistants extends StatelessWidget {
   }
 }
 
-class _ActvityInfo extends StatelessWidget {
+class ActvityInfo extends StatelessWidget {
   final IconData iconData;
   final String name;
 
-  const _ActvityInfo({Key key, this.iconData, this.name}) : super(key: key);
+  const ActvityInfo({Key key, this.iconData, this.name}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -97,10 +101,10 @@ class _ActvityInfo extends StatelessWidget {
   }
 }
 
-class _CategoryItem extends StatelessWidget {
+class CategoryItem extends StatelessWidget {
   final Category category;
 
-  const _CategoryItem({Key key, this.category}) : super(key: key);
+  const CategoryItem({Key key, this.category}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(

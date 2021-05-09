@@ -53,11 +53,10 @@ class ActivityFeedBody extends StatelessWidget {
     if (activities != null)
       return ListView.builder(
         itemCount: activities.length,
-        itemBuilder: (context, index) => ActivityItem(
-          activity: activities[index],
-        ),
+        itemBuilder: (context, index) =>
+            ActivityItem(activity: activities[index]),
       );
     else
-      return const Center(child: Text('Ocurrió un error'));
+      return const Center(child: Text('Something goes wrong. Try again'));
   }
 }

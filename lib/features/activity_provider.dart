@@ -63,4 +63,17 @@ class ActivityProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> updateActivity(Activity activity) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      await repository.updateActivity(activity);
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_social_test/domain/models/activity.dart';
 import 'package:go_social_test/features/activity_provider.dart';
 import 'package:go_social_test/features/create/categories_selector.dart';
 import 'package:go_social_test/service_locator.dart';
@@ -7,35 +8,47 @@ import 'package:go_social_test/widgets/go_button.dart';
 import 'package:go_social_test/widgets/go_text_field.dart';
 import 'package:provider/provider.dart';
 
-class CreateActivityScreen extends HookWidget {
-  const CreateActivityScreen({Key key}) : super(key: key);
+class UpdateActivityScreen extends HookWidget {
+  final Activity activity;
+  const UpdateActivityScreen(this.activity, {Key key}) : super(key: key);
 
-  static Future navigate(BuildContext context, {VoidCallback popCallback}) =>
+  static Future navigate(BuildContext context, Activity activity,
+          {VoidCallback popCallback}) =>
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => CreateActivityScreen._init(context)),
+        MaterialPageRoute(
+          builder: (_) => UpdateActivityScreen._init(
+            context,
+            activity,
+          ),
+        ),
       ).then((_) => popCallback());
 
-  static Widget _init(BuildContext context) {
+  static Widget _init(BuildContext context, Activity activity) {
     return ChangeNotifierProvider.value(
       value: getIt.get<ActivityProvider>(),
-      child: const CreateActivityScreen(),
+      child: UpdateActivityScreen(activity),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     const NOT_EMPTY_FIELD = 'This field cannot be empty';
-    final nameController = useTextEditingController();
-    final descriptionController = useTextEditingController();
-    final locationController = useTextEditingController();
-    final categoriesController = useTextEditingController();
-    final dateController = useTextEditingController();
+    final nameController = useTextEditingController(text: activity.name);
+    final descriptionController =
+        useTextEditingController(text: activity.description);
+    final locationController =
+        useTextEditingController(text: activity.location);
+    final categoriesFormatted =
+        activity.categories.map((i) => i.name).toList().join(',');
+    final categoriesController =
+        useTextEditingController(text: categoriesFormatted);
+    final dateController = useTextEditingController(text: activity.date);
     final _formKey = GlobalKey<FormState>();
     final provider = Provider.of<ActivityProvider>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create new activity'),
+        title: const Text('Update activity'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -84,20 +97,27 @@ class CreateActivityScreen extends HookWidget {
               ),
               const SizedBox(height: 40),
               GoButton(
-                buttonText: 'Save',
+                buttonText: 'Update',
+                isLoading: provider.isLoading,
                 onTap: () async {
                   if (_formKey.currentState.validate()) {
-                    await provider.addNewActivity(
-                      nameController.text,
-                      descriptionController.text,
-                      locationController.text,
-                      dateController.text,
-                      categoriesController.text.split(','),
+                    final updatedActivity = Activity(
+                      id: activity.id,
+                      name: nameController.text,
+                      description: descriptionController.text,
+                      location: locationController.text,
+                      date: dateController.text,
+                      categories: categoriesController.text
+                          .split(',')
+                          .map((item) => Category(item))
+                          .toList(),
+                      isUserActivity: activity.isUserActivity,
+                      assitants: activity.assitants,
                     );
+                    await provider.updateActivity(updatedActivity);
                     Navigator.pop(context);
                   }
                 },
-                isLoading: provider.isLoading,
               )
             ],
           ),
