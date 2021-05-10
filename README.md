@@ -1,5 +1,16 @@
 # Go Social - Test app
 
+## Build-up the application
+
+
+
+## Dependencies
+
+- [Get it](https://pub.dev/packages/get_it)
+- [Provider](https://pub.dev/packages/provider)
+- [Flutter hooks](https://pub.dev/packages/flutter_hooks)
+- [Mockito - Testing](https://pub.dev/packages/mockito)
+
 ## App behaivor
 
 Load activities | Add new activity | Detail Activity | Update Activity
@@ -9,6 +20,8 @@ Load activities | Add new activity | Detail Activity | Update Activity
 
 
 ## Unit testing
+Run `flutter test` at the root of the project.
+
 
 <img src="https://user-images.githubusercontent.com/22333076/117590792-b03a8280-b0f6-11eb-9b5d-a5f2d1bdf69d.png" width="480"/>
 
