@@ -2,7 +2,11 @@
 
 ## Build-up the application
 
+Run `flutter run` at the root of the project or run the project on your favorite IDE.
 
+## Linting
+
+The `analysis_options.yaml` defines all the rules for linting into the project.
 
 ## Dependencies
 
@@ -20,7 +24,7 @@ Load activities | Add new activity | Detail Activity | Update Activity
 
 
 ## Unit testing
-Run `flutter test` at the root of the project.
+Run `flutter test` at the root of the project or run tests on your favorite IDE.
 
 
 <img src="https://user-images.githubusercontent.com/22333076/117590792-b03a8280-b0f6-11eb-9b5d-a5f2d1bdf69d.png" width="480"/>
